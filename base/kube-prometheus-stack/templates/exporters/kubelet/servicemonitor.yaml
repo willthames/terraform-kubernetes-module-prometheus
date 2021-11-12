@@ -1,0 +1,61 @@
+---
+# Source: kube-prometheus-stack/templates/exporters/kubelet/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus-kube-prometheus-kubelet
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-kubelet    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: "20.0.1"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-20.0.1
+    release: "prometheus"
+    heritage: "Helm"
+spec:
+  endpoints:
+  - port: https-metrics
+    scheme: https
+    tlsConfig:
+      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      insecureSkipVerify: true
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    honorLabels: true
+    relabelings:
+    - sourceLabels:
+      - __metrics_path__
+      targetLabel: metrics_path
+  - port: https-metrics
+    scheme: https
+    path: /metrics/cadvisor
+    honorLabels: true
+    tlsConfig:
+      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      insecureSkipVerify: true
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabelings:
+    - sourceLabels:
+      - __metrics_path__
+      targetLabel: metrics_path
+  - port: https-metrics
+    scheme: https
+    path: /metrics/probes
+    honorLabels: true
+    tlsConfig:
+      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      insecureSkipVerify: true
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabelings:
+    - sourceLabels:
+      - __metrics_path__
+      targetLabel: metrics_path
+  jobLabel: k8s-app
+  namespaceSelector:
+    matchNames:
+    - kube-system
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubelet
+      k8s-app: kubelet

@@ -1,0 +1,19 @@
+grafana:
+  enabled: false
+kubeApiServer:
+  enabled: false
+kubeScheduler:
+  enabled: false
+namespaceOverride: monitoring
+alertmanager:
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager.FIXME
+    ingressClassName: internal
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.FIXME
+    ingressClassName: internal

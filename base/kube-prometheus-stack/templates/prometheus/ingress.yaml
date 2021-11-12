@@ -1,0 +1,30 @@
+---
+# Source: kube-prometheus-stack/templates/prometheus/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-kube-prometheus-prometheus
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack-prometheus
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: "20.0.1"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-20.0.1
+    release: "prometheus"
+    heritage: "Helm"
+spec:
+  ingressClassName: internal
+  rules:
+    - host: prometheus.FIXME
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: prometheus-kube-prometheus-prometheus
+                port:
+                  number: 9090
