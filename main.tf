@@ -11,10 +11,10 @@ data "kustomization_overlay" "resources" {
       name = "prometheus-kube-prometheus-alertmanager"
     }
     patch = <<-EOF
-      - op: replace
-        path: /spec/externalUrl
-        value: "https://alertmanager.${var.domain}/"
-      EOF
+    - op: replace
+      path: /spec/externalUrl
+      value: "https://alertmanager.${var.domain}/"
+    EOF
   }
   patches {
     target = {
@@ -22,10 +22,10 @@ data "kustomization_overlay" "resources" {
       name = "prometheus-kube-prometheus-alertmanager"
     }
     patch = <<-EOF
-      - op: replace
-        path: /spec/rules/0/host
-        value: alertmanager.${var.domain}
-      EOF
+    - op: replace
+      path: /spec/rules/0/host
+      value: alertmanager.${var.domain}
+    EOF
   }
   patches {
     target = {
@@ -33,10 +33,10 @@ data "kustomization_overlay" "resources" {
       name = "prometheus-kube-prometheus-prometheus"
     }
     patch = <<-EOF
-      - op: replace
-        path: /spec/rules/0/host
-        value: prometheus.${var.domain}
-      EOF
+    - op: replace
+      path: /spec/rules/0/host
+      value: prometheus.${var.domain}
+    EOF
   }
   patches {
     target = {
@@ -44,10 +44,20 @@ data "kustomization_overlay" "resources" {
       name = "prometheus-kube-prometheus-alertmanager"
     }
     patch = <<-EOF
-      - op: replace
-        path: /spec/externalUrl
-        value: "https://prometheus.${var.domain}/"
-      EOF
+    - op: replace
+      path: /spec/externalUrl
+      value: "https://prometheus.${var.domain}/"
+    EOF
+  }
+  patches {
+    target = {
+      kind = "PodSecurityPolicy"
+      name = "prometheus-prometheus-node-exporter"
+    }
+    patch = <<-EOF
+    - op: remove
+      path: /metadata/namespace
+    EOF
   }
 }
 
