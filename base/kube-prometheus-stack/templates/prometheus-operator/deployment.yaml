@@ -10,9 +10,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/version: "20.0.1"
+    app.kubernetes.io/version: "19.3.0"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-20.0.1
+    chart: kube-prometheus-stack-19.3.0
     release: "prometheus"
     heritage: "Helm"
 spec:
@@ -28,20 +28,20 @@ spec:
         
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/instance: prometheus
-        app.kubernetes.io/version: "20.0.1"
+        app.kubernetes.io/version: "19.3.0"
         app.kubernetes.io/part-of: kube-prometheus-stack
-        chart: kube-prometheus-stack-20.0.1
+        chart: kube-prometheus-stack-19.3.0
         release: "prometheus"
         heritage: "Helm"
     spec:
       containers:
         - name: kube-prometheus-stack
-          image: "quay.io/prometheus-operator/prometheus-operator:v0.52.0"
+          image: "quay.io/prometheus-operator/prometheus-operator:v0.50.0"
           imagePullPolicy: "IfNotPresent"
           args:
             - --kubelet-service=kube-system/prometheus-kube-prometheus-kubelet
             - --localhost=127.0.0.1
-            - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.52.0
+            - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.50.0
             - --config-reloader-cpu-request=100m
             - --config-reloader-cpu-limit=100m
             - --config-reloader-memory-request=50Mi
