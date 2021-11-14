@@ -11,9 +11,17 @@ alertmanager:
     hosts:
       - alertmanager.FIXME
     ingressClassName: internal
+    tls:
+      - secretName: alertmanager-tls
+        hosts:
+          - alertmanager.FIXME
 prometheus:
   ingress:
     enabled: true
     hosts:
       - prometheus.FIXME
     ingressClassName: internal
+    tls:
+      - secretName: prometheus-tls
+        hosts:
+          - prometheus.FIXME

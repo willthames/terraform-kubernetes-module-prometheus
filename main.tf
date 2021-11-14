@@ -25,6 +25,9 @@ data "kustomization_overlay" "resources" {
     - op: replace
       path: /spec/rules/0/host
       value: alertmanager.${var.domain}
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: alertmanager.${var.domain}
     EOF
   }
   patches {
@@ -35,6 +38,9 @@ data "kustomization_overlay" "resources" {
     patch = <<-EOF
     - op: replace
       path: /spec/rules/0/host
+      value: prometheus.${var.domain}
+    - op: replace
+      path: /spec/tls/0/hosts/0
       value: prometheus.${var.domain}
     EOF
   }
