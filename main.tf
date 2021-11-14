@@ -1,6 +1,6 @@
 data "kustomization_overlay" "resources" {
   resources = [
-    "${path.module}/base"
+    "${path.module}/all"
   ]
   kustomize_options = {
     load_restrictor = "none"
@@ -47,16 +47,6 @@ data "kustomization_overlay" "resources" {
     - op: replace
       path: /spec/externalUrl
       value: "https://prometheus.${var.domain}/"
-    EOF
-  }
-  patches {
-    target = {
-      kind = "PodSecurityPolicy"
-      name = "prometheus-prometheus-node-exporter"
-    }
-    patch = <<-EOF
-    - op: remove
-      path: /metadata/namespace
     EOF
   }
 }

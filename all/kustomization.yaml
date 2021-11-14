@@ -1,0 +1,11 @@
+resources:
+  - ../base
+
+patches:
+  - target:
+      kind: PodSecurityPolicy
+      name: prometheus-prometheus-node-exporter
+    path: patches/namespace.yaml
+  - target:
+      kind: Ingress
+    path: patches/certificate.yaml
