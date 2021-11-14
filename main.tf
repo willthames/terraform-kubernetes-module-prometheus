@@ -5,6 +5,50 @@ data "kustomization_overlay" "resources" {
   kustomize_options = {
     load_restrictor = "none"
   }
+  patches {
+    target = {
+      kind = "Alertmanager"
+      name = "prometheus-kube-prometheus-alertmanager"
+    }
+    patch = <<-EOF
+      - op: replace
+        path: /spec/externalUrl
+        value: "https://alertmanager.${var.domain}/"
+      EOF
+  }
+  patches {
+    target = {
+      kind = "Ingress"
+      name = "prometheus-kube-prometheus-alertmanager"
+    }
+    patch = <<-EOF
+      - op: replace
+        path: /spec/rules/0/host
+        value: alertmanager.${var.domain}
+      EOF
+  }
+  patches {
+    target = {
+      kind = "Ingress"
+      name = "prometheus-kube-prometheus-prometheus"
+    }
+    patch = <<-EOF
+      - op: replace
+        path: /spec/rules/0/host
+        value: prometheus.${var.domain}
+      EOF
+  }
+  patches {
+    target = {
+      kind = "Prometheus"
+      name = "prometheus-kube-prometheus-alertmanager"
+    }
+    patch = <<-EOF
+      - op: replace
+        path: /spec/externalUrl
+        value: "https://prometheus.${var.domain}/"
+      EOF
+  }
 }
 
 # first loop through resources in ids_prio[0]
